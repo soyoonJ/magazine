@@ -5,6 +5,7 @@ import {getCookie, setCookie, deleteCookie} from "../shared/Cookie"
 import {useDispatch} from "react-redux"
 // as~ 쓰면 ~라고 별명 지어주는거!
 import {actionCreators as userActions} from "../redux/modules/user"
+import { emailCheck } from "../shared/common";
 
 const Login = (props) => {
   const dispatch = useDispatch();
@@ -13,10 +14,20 @@ const Login = (props) => {
   const [pwd, setPwd] = React.useState("");
 
   const login = () => {
+
+    console.log(id);
+
+
     if(id === '' || pwd === "") {
       window.alert("아이디 혹은 비밀번호가 공란입니다! 입력해주세요!");
       return;
     }
+
+    if(!emailCheck(id)){
+      window.alert("이메일 형식이 맞지 않습니다!");
+      return;
+    }
+
     // setCookie("user_id", "perl", 3);
     // setCookie("user_pwd", "pppp", 3);
     dispatch(userActions.loginFB(id, pwd));
