@@ -5,6 +5,9 @@ import {getCookie, deleteCookie} from "../shared/Cookie";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 
+import {history} from "../redux/configureStore";
+import { apiKey } from "../shared/firebase";
+
 const Header = (props) => {
     const dispatch = useDispatch();
     const is_login = useSelector((state)=> state.user.is_login);
@@ -22,7 +25,12 @@ const Header = (props) => {
     //     }
     // })
 
-    if (is_login) {
+    const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
+
+    const is_session = sessionStorage.getItem(_session_key)? true : false;
+    console.log(is_session)
+
+    if (is_login && is_session) {
       return (
         <React.Fragment>
           <Grid is_flex padding="4px 16px">
@@ -38,7 +46,7 @@ const Header = (props) => {
                 {/* 쿠키는 삭제 됐지만 부모/자식이 변한게 아니기 때문에 리렌더링 되지 않음 */}
               <Button
               text="로그아웃"
-              _onClick={()=> {dispatch(userActions.logOut({}))}}></Button>
+              _onClick={()=> {dispatch(userActions.logoutFB())}}></Button>
             </Grid>
           </Grid>
         </React.Fragment>
@@ -55,8 +63,12 @@ const Header = (props) => {
                 </Grid>
                 
                 <Grid is_flex>
-                    <Button text="로그인"></Button>
-                    <Button text="회원가입"></Button>
+                    <Button text="로그인"
+                     _onClick={()=> {history.push('/login')}}
+                    ></Button>
+                    <Button text="회원가입" _onClick={()=> {
+                      history.push('/signup');
+                    }}></Button>
                 </Grid>
             </Grid>
         </React.Fragment>

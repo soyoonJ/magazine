@@ -1,6 +1,7 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
+
 const firebaseConfig = {
     apiKey: "AIzaSyD5y2HHOIsCi4IAxsGM-hzzi4whqlhhFQ0",
     authDomain: "image-community-907bf.firebaseapp.com",
@@ -12,8 +13,8 @@ const firebaseConfig = {
   };
 
 firebase.initializeApp(firebaseConfig);
+
+const apiKey = firebaseConfig.apiKey;
 const auth = firebase.auth();
 
-export { auth };
-
-// export default firebase;
+export { auth, apiKey };
