@@ -47,7 +47,7 @@ function App() {
         </ConnectedRouter>
       </Grid>
       <Permit>
-        <Button is_float text="+"></Button>
+        <Button is_float text="+" _onClick={() => {history.push("/write")}}></Button>
       </Permit>
     </React.Fragment>
   );

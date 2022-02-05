@@ -1,7 +1,7 @@
 import {createAction, handleAction, handleActions} from "redux-actions"
 import {produce} from "immer"
 import { firestore } from "../../shared/firebase";
-
+import moment from "moment";
 
 // 액션타입 만들어줌
 const SET_POST = "SET_POST";
@@ -18,18 +18,49 @@ const initialState = {
 
 const initialPost = {
     // id도 같이 추가
-    id:0,
-    // Post.js에서 defaultProps 복사
-    user_info: {
-        user_name: "soyoon",
-        user_profile: "https://photo.jtbc.joins.com/news/2021/03/26/202103261532034842.jpg",
-      },
+    // id:0,
+    // // Post.js에서 defaultProps 복사
+    // user_info: {
+    //     user_name: "soyoon",
+    //     user_profile: "https://photo.jtbc.joins.com/news/2021/03/26/202103261532034842.jpg",
+    //   },
       image_url: "https://photo.jtbc.joins.com/news/2021/03/26/202103261532034842.jpg",
-      contents: "고양이네요!",
-      comment_cnt: 10,
-      insert_dt: "2021-02-27 10:00:00",
+      contents: "",
+      comment_cnt: 0,
+      insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
 };
 
+
+const addPostFB = (contents="") => {
+    return function (dispatch, getState, {history}) {
+        const postDB = firestore.collection("post");
+ 
+        const _user = getState().user.user;
+
+        const user_info = {
+            user_name: _user.user_name,
+            user_id: _user.uid,
+            user_profile: _user.user_profile
+        };
+
+        const _post = {
+            ...initialPost,
+            contents: contents,
+            insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
+        };
+
+        postDB.add({...user_info, ..._post}).then((doc)=> {
+            let post = {user_info, ..._post, id:doc.id};
+            dispatch(addPost(post));
+            history.replace("/");
+        }).catch((err) => {
+            console.log("post 작성에 실패했어요!")
+
+        });
+    };
+    
+
+};
 
 const getPostFB = () => {
     return function (dispatch, getState, {history}) {
@@ -91,7 +122,7 @@ export default handleActions (
         }),
 
         [ADD_POST] : (state, action) => produce(state, (draft) => {
-
+            draft.list.unshift(action.payload.post);
         })
     }, initialState
 );
@@ -101,6 +132,7 @@ const actionCreators = {
     setPost,
     addPost,
     getPostFB,
+    addPostFB,
 }
 
 // export
