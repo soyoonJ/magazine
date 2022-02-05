@@ -1,7 +1,9 @@
 import {createAction, handleAction, handleActions} from "redux-actions"
 import {produce} from "immer"
-import { firestore } from "../../shared/firebase";
+import { firestore, storage } from "../../shared/firebase";
 import moment from "moment";
+
+import { actionCreators as imageActions } from "./image";
 
 // 액션타입 만들어줌
 const SET_POST = "SET_POST";
@@ -40,7 +42,7 @@ const addPostFB = (contents="") => {
         const user_info = {
             user_name: _user.user_name,
             user_id: _user.uid,
-            user_profile: _user.user_profile
+            user_profile: _user.user_profile,
         };
 
         const _post = {
@@ -49,14 +51,43 @@ const addPostFB = (contents="") => {
             insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
         };
 
-        postDB.add({...user_info, ..._post}).then((doc)=> {
-            let post = {user_info, ..._post, id:doc.id};
-            dispatch(addPost(post));
-            history.replace("/");
-        }).catch((err) => {
-            console.log("post 작성에 실패했어요!")
+        const _image = getState().image.preview;
 
+        console.log(_image);
+        console.log(typeof _image);
+
+        const _upload = storage
+            .ref(`images/${user_info.user_id}_${new Date().getTime()}`)
+            .putString(_image, "data_url");
+
+        _upload
+        .then((snapshot) => {
+            snapshot.ref
+            .getDownloadURL()
+            .then(url => {
+                console.log(url);
+                dispatch(imageActions.uploadImage(url));
+                return url;
+            }).then((url) => {
+                postDB
+                .add({...user_info, ..._post, image_url: url})
+                .then((doc)=> {
+                    let post = {user_info, ..._post, id:doc.id, image_url: url};
+                    dispatch(addPost(post));
+                    history.replace("/");
+
+                    dispatch(imageActions.setPreview(null));
+                }).catch((err) => {
+                    window.alert("앗! 포스트 작성에 문제가 있어요!");
+                    console.log("post 작성에 실패했어요!", err);
+                });
+            }).catch((err) => {
+                window.alert('앗! 이미지 업로드에 문제가 있어요!');
+                console.log('앗! 이미지 업로드에 문제가 있어요!', err);
+            })
         });
+
+        
     };
     
 
