@@ -31,6 +31,7 @@ const Signup = (props) => {
 
     dispatch(userActions.signupFB(id, pwd, user_name));
   };
+  
   return (
     <React.Fragment>
       <Grid padding="16px">
@@ -73,6 +74,7 @@ const Signup = (props) => {
           <Input
             label="비밀번호 확인"
             placeholder="비밀번호를 다시 입력해주세요."
+            type="password"
             _onChange={(e) => {
               setPwdCheck(e.target.value);
             }}
