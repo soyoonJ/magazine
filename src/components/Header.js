@@ -44,7 +44,9 @@ const Header = (props) => {
 
               <Grid is_flex>
                 <Button text="내정보"></Button>
-                <Button text="알림"></Button>
+                <Button _onClick={() => {
+                  history.push("/noti");
+                }} text="알림"></Button>
                 {/* 쿠키는 삭제 됐지만 부모/자식이 변한게 아니기 때문에 리렌더링 되지 않음 */}
                 <Button
                   text="로그아웃"
