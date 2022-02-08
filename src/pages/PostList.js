@@ -12,10 +12,13 @@ const PostList = (props) => {
     const post_list = useSelector((state)=>state.post.list);
     const user_info = useSelector((state)=> state.user.user);
     // const is_loading = useSelector((state) => state.post.is_loading);
+    // const layout = useSelector((state) => state.post.list);
+    // console.log(layout)
+    // console.log(props.value)
 
     const {history} = props;
 
-    console.log(post_list);
+    // console.log(post_list);
 
     React.useEffect(() => {
 

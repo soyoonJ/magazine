@@ -42,7 +42,7 @@ const editPostFB = (post_id = null, post = {}) => {
     const _post_idx = getState().post.list.findIndex(p => p.id === post_id);
     const _post = getState().post.list[_post_idx];
 
-    console.log(_post);
+    // console.log(_post);
 
     const postDB = firestore.collection('post');
 
@@ -101,10 +101,10 @@ const addPostFB = (contents = "", value = "") => {
       value: value,
       insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
     };
-    console.log(_post, "111");
+    // console.log(_post);
 
     const _image = getState().image.preview;
-    console.log(_image);
+    // console.log(_image);
 
     const _upload = storage
       .ref(`images/${user_info.user_id}_${new Date().getTime()}`)
@@ -168,7 +168,7 @@ const getPostFB = () => {
 
             })
 
-            console.log(post_list);
+            // console.log(post_list);
 
             dispatch(setPost(post_list))
         })

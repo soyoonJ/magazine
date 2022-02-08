@@ -45,6 +45,7 @@ const ImageDefault = styled.div`
     height: var(--size);
     background-image: url("${(props) => props.src}");
     background-size: cover;
+    background-position: center;
 `;
 
 const AspectOutter = styled.div`
@@ -61,6 +62,7 @@ const AspectInner = styled.div`
     overflow: hidden;
     background-image: url("${(props) => props.src}");
     background-size: cover;
+    background-position: center;
 `;
 
 const ImageCircle = styled.div`
@@ -73,6 +75,7 @@ const ImageCircle = styled.div`
 
     background-image: url("${(props) => props.src}");
     background-size: cover;
+    background-position: center;
     margin: 4px;
 `;
 
