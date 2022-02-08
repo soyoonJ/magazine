@@ -1,9 +1,14 @@
+// PostList(메인_목록페이지)에 나오는 카드 한 덩이
+
 import React from "react";
 import {Grid, Image, Text, Button} from "../elements";
 
 import { history } from "../redux/configureStore"
+import { actionCreators as postActions } from "../redux/modules/post";
+import { useSelector, useDispatch } from "react-redux";
 
 const Post = (props) => {
+    const dispatch = useDispatch();
 
     return (
       <React.Fragment>
@@ -14,13 +19,23 @@ const Post = (props) => {
               <Text bold>{props.user_info.user_name}</Text>
             </Grid>
             <Grid is_flex width="auto">
+              {/* 게시일자 */}
               <Text>{props.insert_dt}</Text>
+              {/* 수정하기 버튼 */}
               {props.is_me && 
               <Button width="auto" margin="4px" padding="4px" _onClick={() => {
                 history.push(`/write/${props.id}`);
               }}>
                 수정
                 </Button>}
+              {/* 삭제하기 버튼 */}
+                {props.is_me && 
+              <Button width="auto" margin="4px" padding="4px" _onClick={() => {
+                dispatch(postActions.deletePostFB(props.id));
+              }}>
+                삭제
+                </Button>}
+
             </Grid>
           </Grid>
           <Grid padding="16px">
@@ -38,6 +53,7 @@ const Post = (props) => {
     );
 }
 
+// Post에 들어가야할 정보의 defaultProps값 설정
 Post.defaultProps = {
   user_info: {
     user_name: "soyoon",

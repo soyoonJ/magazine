@@ -4,6 +4,7 @@ import styled from "styled-components";
 const Grid = (props) => {
   const { is_flex, width, margin, padding, bg, children, center, _onClick } = props;
 
+  // 위에 props에서 스타일 속성끼리 묶기 위해 children만 뺀 것!
   const styles = {
       is_flex: is_flex,
       width: width,
@@ -31,6 +32,7 @@ Grid.defaultProps = {
   _onClick: () => {}
 };
 
+// defaultProps를 가지고 스타일 어떻게 줄건지
 const GridBox = styled.div`
   width: ${(props) => props.width};
   height: 100%;

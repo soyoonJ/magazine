@@ -1,3 +1,4 @@
+// 액션 만들어주는 것들
 import {createAction, handleActions} from "redux-actions";
 import {produce} from "immer";
 
@@ -46,6 +47,7 @@ const initialState = {
 const loginFB = (id, pwd) => {
     return function (dispatch, getState, {history}) {
 
+        // 로그인 유지
         setPersistence(auth, browserSessionPersistence).then(() => {
           signInWithEmailAndPassword(auth, id, pwd)
             .then((userCredential) => {
@@ -76,6 +78,7 @@ const loginFB = (id, pwd) => {
     }
 }
 
+// 비밀번호 기반 계정 만들기
 const signupFB = (id, pwd, user_name) => {
   return function (dispatch, getState, { history }) {
 
@@ -139,7 +142,7 @@ const logoutFB = () => {
 // 리듀서
 export default handleActions({
     // immer 가져오기 (produce)
-    // 원본값 복사한거 draft
+    // 원본값 제공, 원본값 복사한거 draft
     [SET_USER]: (state, action) => produce(state, (draft)=>{
         setCookie("is_login", "success")
         // action creators에서 받아온 값

@@ -23,6 +23,7 @@ Text.defaultProps = {
 const P = styled.p`
   color: ${(props) => props.color};
   font-size: ${(props) => props.size};
+  // bold가 있냐없냐가 확실하기 않기 때문에 삼항연산자
   font-weight: ${(props) => (props.bold? "600" : "400")};
   ${(props) => (props.margin? `margin: ${props.margin};` : '')}
 `;

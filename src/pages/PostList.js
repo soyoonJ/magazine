@@ -1,4 +1,5 @@
 // PostList.js
+// 목록페이지(메인)
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 

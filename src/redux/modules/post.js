@@ -9,11 +9,13 @@ import { actionCreators as imageActions } from "./image";
 const SET_POST = "SET_POST";
 const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
+const DELETE_POST = "DELETE_POST";
 
 // 액션 만들어줌
 const setPost = createAction(SET_POST, (post_list) => ({post_list}))
 const addPost = createAction(ADD_POST, (post) => ({post}));
 const editPost = createAction(EDIT_POST, (post_id, post) => ({post_id,post}));
+const deletePost = createAction(DELETE_POST, (post_id) => ({post_id}));
 
 // initialState 생성
 const initialState = {
@@ -21,17 +23,11 @@ const initialState = {
 }
 
 const initialPost = {
-    // id도 같이 추가
-    // id:0,
-    // // Post.js에서 defaultProps 복사
-    // user_info: {
-    //     user_name: "soyoon",
-    //     user_profile: "https://photo.jtbc.joins.com/news/2021/03/26/202103261532034842.jpg",
-    //   },
-      image_url: "https://photo.jtbc.joins.com/news/2021/03/26/202103261532034842.jpg",
-      contents: "",
-      comment_cnt: 0,
-      insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
+
+      // image_url: "https://photo.jtbc.joins.com/news/2021/03/26/202103261532034842.jpg",
+      // contents: "",
+      // comment_cnt: 0,
+      // insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
 };
 
 const editPostFB = (post_id = null, post = {}) => {
@@ -75,19 +71,7 @@ const editPostFB = (post_id = null, post = {}) => {
               dispatch(editPost(post_id, { ...post, image_url: url }));
               history.replace("/");
             });
-            // postDB
-            //   .add({ ...user_info, ..._post, image_url: url })
-            //   .then((doc) => {
-            //     let post = { user_info, ..._post, id: doc.id, image_url: url };
-            //     dispatch(addPost(post));
-            //     history.replace("/");
 
-            //     dispatch(imageActions.setPreview(null));
-            //   })
-            //   .catch((err) => {
-            //     window.alert("앗! 포스트 작성에 문제가 있어요!");
-            //     console.log("post 작성에 실패했어요!", err);
-            //   });
           });
            })
           .catch((err) => {
@@ -99,36 +83,65 @@ const editPostFB = (post_id = null, post = {}) => {
 }
 
 
-const addPostFB = (contents="") => {
-    return function (dispatch, getState, {history}) {
-        const postDB = firestore.collection("post");
- 
-        const _user = getState().user.user;
+const addPostFB = (contents = "", value = "") => {
+  return function (dispatch, getState, { history }) {
+    const postDB = firestore.collection("post");
 
-        const user_info = {
-            user_name: _user.user_name,
-            user_id: _user.uid,
-            user_profile: _user.user_profile,
-        };
+    const _user = getState().user.user;
 
-        const _post = {
-            ...initialPost,
-            contents: contents,
-            insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
-        };
-
-        const _image = getState().image.preview;
-
-        console.log(_image);
-        console.log(typeof _image);
-
-       
-
-        
+    const user_info = {
+      user_name: _user.user_name,
+      user_id: _user.uid,
+      user_profile: _user.user_profile,
     };
+
+    const _post = {
+      ...initialPost,
+      contents: contents,
+      value: value,
+      insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
+    };
+    console.log(_post, "111");
+
+    const _image = getState().image.preview;
+    console.log(_image);
+
+    const _upload = storage
+      .ref(`images/${user_info.user_id}_${new Date().getTime()}`)
+      .putString(_image, "data_url");
+
+    _upload.then((snapshot) => {
+      snapshot.ref
+        .getDownloadURL()
+        .then((url) => {
+          console.log(url);
+
+          return url;
+        })
+        .then((url) => {
+          postDB
+            .add({ ...user_info, ..._post, image_url: url })
+            .then((doc) => {
+              let post = { user_info, ..._post, id: doc.id, image_url: url };
+              dispatch(addPost(post));
+              history.replace("/");
+
+              dispatch(imageActions.setPreview(null));
+            })
+            .catch((err) => {
+              window.alert("앗! 포스트 작성에 문제가 있어요!");
+              console.log("post 작성에 실패했어요!", err);
+            });
+        })
+        .catch((err) => {
+          window.alert("앗! 이미지 업로드에 문제가 있어요!");
+          console.log("앗 이미지 업로드에 문제가 있어요!", err);
+        });
+    });
+  };
+};
     
 
-};
 
 const getPostFB = () => {
     return function (dispatch, getState, {history}) {
@@ -153,26 +166,6 @@ const getPostFB = () => {
 
                 post_list.push(post);
 
-                // let _post = {
-                //     id: doc.id,
-                //     ...doc.data()
-                // };
-
-                // let post = {
-                //     id:doc.id,
-                //     user_info: {
-                //         user_name: _post.user_name,
-                //         user_profile: _post.user_profile,
-                //         user_id: _post.user_id,
-                //       },
-                //       image_url: _post.image_url,
-                //       contents: _post.contents,
-                //       comment_cnt: _post.comment_cnt,
-                //       insert_dt: _post.insert_dt,
-
-                // };
-
-                // post_list.push(post);
             })
 
             console.log(post_list);
@@ -181,6 +174,20 @@ const getPostFB = () => {
         })
     }
 }
+
+
+
+// const deletePostFB = (post_id) => {
+//   return function (dispatch, getState, {history}) {
+//       // const postDB = firestore.collection("post");
+//       const docRef = doc(db, "post", post_id);
+//       deleteDoc(docRef);
+
+//       dispatch(deletePost(post_id))
+//   }
+// }
+
+
 
 // reducer 작성
 export default handleActions (
@@ -196,7 +203,15 @@ export default handleActions (
         [EDIT_POST]: (state, action) => produce(state, (draft) => {
             let idx = draft.list.findIndex((p) => p.id === action.payload.post_id);
             draft.list[idx] = {...draft.list[idx], ...action.payload.post};
-        })
+        }),
+
+        [DELETE_POST]: (state, action) => produce(state, (draft) => {
+            let deleted = draft.list.filter((e,i) => {
+              return parseInt(action.payload.post_id) !== i
+            })
+            draft.list = deleted
+        }),
+
     }, initialState
 );
 
@@ -205,9 +220,11 @@ const actionCreators = {
     setPost,
     addPost,
     editPost,
+    deletePost,
     getPostFB,
     addPostFB,
     editPostFB,
+    // deletePostFB,
 }
 
 // export

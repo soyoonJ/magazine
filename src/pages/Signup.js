@@ -14,11 +14,13 @@ const Signup = (props) => {
   const [user_name, setUserName] = React.useState("");
 
   const signup = () => {
+    // id, pwd, user_name 아무것도 없으면 알럿창 띄우기
     if (id === "" || pwd === "" || user_name === "") {
       window.alert('아이디, 패스워드, 닉네임을 모두 입력해주세요!')
       return;
     }
 
+    // 이메일 형식 체크
     if(!emailCheck(id)) {
       window.alert('이메일 형식이 맞지 않습니다!')
       return;
@@ -65,6 +67,7 @@ const Signup = (props) => {
             placeholder="비밀번호를 입력해주세요."
             type="password"
             _onChange={(e) => {
+              // setPwd에 입력한 값 넣어주기
               setPwd(e.target.value);
             }}
           />
@@ -81,7 +84,7 @@ const Signup = (props) => {
           />
         </Grid>
 
-        <Button text="회원가입하기" _onClick={signup}></Button>
+        <Button disabled={false} text="회원가입하기" _onClick={signup}></Button>
       </Grid>
     </React.Fragment>
   );

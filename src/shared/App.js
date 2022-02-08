@@ -3,9 +3,12 @@ import './App.css';
 import React from "react";
 
 import {BrowserRouter, Route} from "react-router-dom";
+
+// history를 여기에서 만들긴 했지만, react-router-dom에서 useHistory로 사용 가능
 import { ConnectedRouter } from 'connected-react-router';
 import { history } from '../redux/configureStore';
 
+// pages 폴더에 있는 컴포넌트 import
 import PostList from "../pages/PostList";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
@@ -29,6 +32,8 @@ function App() {
   const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
   const is_session = sessionStorage.getItem(_session_key)? true : false;
 
+
+  // 로그인 유지하기 위해 App.js에서 세션 체크 진행
   React.useEffect(()=>{
    
     if (is_session){
@@ -38,9 +43,10 @@ function App() {
 
   return (
     <React.Fragment>
-      <Grid>
+      <Grid width="60%" margin ="auto">
         <Header></Header>
         <ConnectedRouter history={history}>
+          {/* pages import 후에 각 페이지의 주소 만들어주기 */}
           <Route path="/" exact component={PostList} />
           <Route path="/login" exact component={Login} />
           <Route path="/signup" exact component={Signup}/>
@@ -52,6 +58,7 @@ function App() {
         </ConnectedRouter>
       </Grid>
       <Permit>
+        {/* 메인에 추가버튼 추가 -> 버튼 컴포넌트에 float버튼으로 추가 */}
         <Button is_float text="+" _onClick={() => {history.push("/write")}}></Button>
       </Permit>
     </React.Fragment>

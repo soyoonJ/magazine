@@ -23,6 +23,7 @@ const Login = (props) => {
       return;
     }
 
+    // 이메일 유효성 체크는 shared/common 컴포넌트에서!!
     if(!emailCheck(id)){
       window.alert("이메일 형식이 맞지 않습니다!");
       return;

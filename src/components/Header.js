@@ -1,30 +1,20 @@
 import React from "react";
 import {Grid, Text, Button} from "../elements";
-import {getCookie, deleteCookie} from "../shared/Cookie";
+// import {getCookie, deleteCookie} from "../shared/Cookie";
 
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 
 import { history } from "../redux/configureStore";
 import { apiKey } from "../shared/firebase";
-import Permit from "../shared/Permit";
+// import Permit from "../shared/Permit";
 
 const Header = (props) => {
   const dispatch = useDispatch();
+  // 로그인 됐는지 안됐는지 판별
+
+  // is_login true/false에 따라 헤더 다르게 보여주기
   const is_login = useSelector((state) => state.user.is_login);
-
-  // const [is_login, setIsLogin] = React.useState(false);
-
-  // React.useEffect(()=> {
-  //     let cookie=getCookie("user_id");
-  //     console.log(cookie);
-
-  //     if(cookie) {
-  //         setIsLogin(true);
-  //     } else {
-  //         setIsLogin(false)
-  //     }
-  // })
 
   const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
 
@@ -32,6 +22,7 @@ const Header = (props) => {
   // console.log(is_session);
   // console.log(sessionStorage.getItem(_session_key))
 
+  // 로그인되어있고, 세션 있을 경우에만 내정보/알림/로그아웃 헤더 보여주기
   if (is_login && is_session) {
     return (
       <React.Fragment>

@@ -3,6 +3,7 @@ import "firebase/compat/auth";
 import "firebase/compat/firestore";
 import "firebase/compat/storage";
 
+// firebase에서 프로젝트 생성 시 생기는 firebaseConfig 그대로 복사하기
 const firebaseConfig = {
     apiKey: "AIzaSyD5y2HHOIsCi4IAxsGM-hzzi4whqlhhFQ0",
     authDomain: "image-community-907bf.firebaseapp.com",

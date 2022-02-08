@@ -5,6 +5,7 @@ import App from './shared/App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from "react-redux";
 
+// 스토어 주입
 import store from "./redux/configureStore"
 
 ReactDOM.render(

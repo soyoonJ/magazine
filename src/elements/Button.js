@@ -3,12 +3,12 @@ import styled from "styled-components";
 
 const Button = (props) => {
 
-    const {text, _onClick, is_float, children, margin, width, padding} = props;
+    const {text, _onClick, is_float, children, margin, width, padding, disabled} = props;
 
     if(is_float) {
       return (
         <React.Fragment>
-          <FloatButton onClick={_onClick}>{text? text : children}</FloatButton>
+          <FloatButton disabled={disabled} onClick={_onClick}>{text? text : children}</FloatButton>
         </React.Fragment>
       );
     }
@@ -21,7 +21,7 @@ const Button = (props) => {
 
     return (
       <React.Fragment>
-        <ElButton {...styles} onClick={_onClick}>{text? text : children}</ElButton>
+        <ElButton {...styles} disabled={disabled} onClick={_onClick}>{text? text : children}</ElButton>
       </React.Fragment>
     );
 }
@@ -34,6 +34,7 @@ Button.defaultProps = {
     margin: false,
     width: '100%',
     padding: "12px 0px",
+    disabled: false,
 }
 
 const ElButton = styled.button`
@@ -46,6 +47,7 @@ const ElButton = styled.button`
     ${(props)=> (props.margin? `margin: ${props.margin};` : '')}
 `;
 
+// 동그라미 플러스 버튼
 const FloatButton = styled.button`
   width: 50px;
   height: 50px;

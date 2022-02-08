@@ -2,25 +2,28 @@ import styled from 'styled-components';
 import React from "react";
 
 const Image = (props) => {
-    const {shape, src, size} = props;
+    const {shape, src, size, mini} = props;
 
     const styles = {
         src: src,
         size: size,
     }
 
+    // 이미지가 동그라미일 때
     if(shape === "circle"){
         return (
             <ImageCircle {...styles}></ImageCircle>
         )
     }
 
+    // 이미지가 네모일 때
     if(shape === "rectangle"){
-        return (
-            <AspectOutter>
-                <AspectInner {...styles}></AspectInner>
-            </AspectOutter>
-        )
+            return (
+                <AspectOutter>
+                    <AspectInner {...styles}></AspectInner>
+                </AspectOutter>
+            )
+        
     }
 
     return (
@@ -47,7 +50,10 @@ const ImageDefault = styled.div`
 const AspectOutter = styled.div`
     width: 100%;
     min-width: 250px;
+    width: var(--size);
+    height: var(--size);
 `;
+
 
 const AspectInner = styled.div`
     position: relative;
@@ -58,6 +64,8 @@ const AspectInner = styled.div`
 `;
 
 const ImageCircle = styled.div`
+    // css에 변수 주는 방법 : --어쩌구
+    // 변수 쓸 때는 var(--어쩌구)
     --size: ${(props) => props.size}px;
     width: var(--size);
     height: var(--size);
