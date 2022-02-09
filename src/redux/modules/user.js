@@ -5,7 +5,7 @@ import {produce} from "immer";
 import {setCookie, getCookie, deleteCookie} from "../../shared/Cookie"
 
 import {auth} from "../../shared/firebase"
-// import firebase from "firebase/app"
+import firebase from "firebase/app"
 
 import { setPersistence, browserSessionPersistence, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from "firebase/auth";
 

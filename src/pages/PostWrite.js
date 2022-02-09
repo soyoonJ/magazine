@@ -38,6 +38,7 @@ const PostWrite = (props) => {
       }
 
       // 위에서 포스트 정보 여부 확인했기 때문에 따로 확인할 필요 없음
+      // preview 반영하기 위해 이미지 넣어주기
       if(is_edit) {
         dispatch(imageActions.setPreview(_post.image_url))
       }
@@ -105,6 +106,7 @@ const PostWrite = (props) => {
               미리보기
             </Text>
             <Grid width= "30vw">
+              {/* 미리보기 이미지 */}
             <Image
               shape="rectangle"
               src={
@@ -179,13 +181,19 @@ const PostWrite = (props) => {
 
         {/*게시글 작성 마친 후 submit 위해 클릭하는 버튼 */}
         <Grid padding="16px">
+          
+
           {/* 편집상태에 따라서 수정 or 작성으로 조건 나눔 */}
           {is_edit ? (
-            <Button text="게시글 수정" _onClick={editPost}></Button>
+            <Button text="게시글 수정" _onClick={editPost} disabled={!preview || contents === "" ? true : false}></Button>
           ) : (
             // 상단에서 addPost 함수 만들고 거기에서 FB로 보내주는 작업 만들기
-            <Button text="게시글 작성" _onClick={addPost}></Button>
+            <Button text="게시글 작성" _onClick={addPost} disabled={!preview || contents === "" ? true : false}></Button>
           )}
+
+
+
+
         </Grid>
       </React.Fragment>
     );

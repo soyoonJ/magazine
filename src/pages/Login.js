@@ -63,13 +63,34 @@ const Login = (props) => {
           />
         </Grid>
 
+
         <Button
+          disabled={(id === '' || pwd === '')? true : false}
           text="로그인하기"
           _onClick={() => {
             console.log("로그인 했어!");
             login();
           }}
         ></Button>
+       
+
+
+        {/* <Button
+          `{(id === '' || pwd === '')?disabled:null}`
+          text="로그인하기"
+          _onClick={() => {
+            console.log("로그인 했어!");
+            login();
+          }}
+        ></Button>   */}
+
+
+
+
+
+
+
+
       </Grid>
     </React.Fragment>
   );

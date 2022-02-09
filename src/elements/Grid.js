@@ -16,6 +16,7 @@ const Grid = (props) => {
   };
   return (
     <React.Fragment>
+      {/* 하위에 다른 컴포넌트 같이 쓰려면 children 써야 함 */}
       <GridBox {...styles} onClick={_onClick}>{children}</GridBox>
     </React.Fragment>
   );

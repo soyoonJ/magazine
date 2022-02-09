@@ -5,8 +5,11 @@ import { Grid, Image, Text, Button } from "../elements";
 
 import { history } from "../redux/configureStore";
 import { actionCreators as postActions } from "../redux/modules/post";
+// import { actionCreators as likeActions } from "../redux/modules/like";
 import { useSelector, useDispatch } from "react-redux";
 import { Switch } from "react-router-dom/cjs/react-router-dom.min";
+import { FaHeart } from 'react-icons/fa';
+import { FiHeart } from 'react-icons/fi';
 
 const Post = (props) => {
   const dispatch = useDispatch();
@@ -16,7 +19,8 @@ const Post = (props) => {
 
 
     switch(props.value) {
-      case 'right-image' :
+        
+        case 'right-image' :
         // e.stopPropagation() : 부모요소 삭제 안되도록 함
         return (
         <React.Fragment>
@@ -72,7 +76,11 @@ const Post = (props) => {
             </Grid>
   
 
-            <Grid padding="16px">
+            <Grid padding="16px" is_flex>
+            <FiHeart margin="20px" size="20px" onClick={(e)=> {
+              e.stopPropagation()
+              dispatch(postActions.likePostFB(props.id));
+            }}/>
               <Text margin="0px" bold>
                 댓글 {props.comment_cnt}개
               </Text>
@@ -133,9 +141,13 @@ const Post = (props) => {
               </Text>
             </Grid>
   
-            <Grid padding="16px">
+            <Grid padding="16px" is_flex>
+            <FiHeart margin="20px" size="20px" onClick={(e)=> {
+              e.stopPropagation()
+              dispatch(postActions.likePostFB(props.id));
+            }}/>
               <Text margin="0px" bold>
-                댓글 {props.comment_cnt}개
+                댓글 {props.comment_cnt}개             
               </Text>
             </Grid>
           </Grid>
@@ -191,7 +203,11 @@ const Post = (props) => {
               {/* 게시물 목록에서 노출되는 사진 부분 */}
               <Image shape="rectangle" src={props.image_url} />
             </Grid>
-            <Grid padding="16px">
+            <Grid padding="16px" is_flex>
+            <FiHeart margin="20px" size="20px" onClick={(e)=> {
+              e.stopPropagation()
+              dispatch(postActions.likePostFB(props.id));
+            }}/>
               <Text margin="0px" bold>
                 댓글 {props.comment_cnt}개
               </Text>

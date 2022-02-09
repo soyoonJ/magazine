@@ -12,3 +12,11 @@ export const emailCheck = (email) => {
 }
 
     
+export const passwordCheck = (password) => {
+
+    // 비밀번호 형식체크
+    let _reg = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/
+
+    // 유효성 체크하는 방법!! 맞으면 true, 아니면 false 반환
+    return _reg.test(password);
+}

@@ -48,9 +48,12 @@ export default handleActions({
     [UPLOADING]: (state, action) => produce(state, (draft) => {
         draft.uploading = action.payload.uploading;
     }),
+
     [SET_PREVIEW]: (state, action) => produce(state, (draft) => {
+        // draft의 preview는 action에서 넘어온 preview
         draft.preview = action.payload.preview;
     }),
+    
 }, initialState);
 
 const actionCreators = {

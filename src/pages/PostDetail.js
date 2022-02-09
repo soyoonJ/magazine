@@ -48,6 +48,7 @@ const PostDetail = (props) => {
     
     return (
         <React.Fragment>
+            {/* 포스트가 있을 때에만 처리하도록!! */}
             {post && <Post {...post} is_me={post.user_info.user_id === user_info.uid} />}
             <CommentWrite></CommentWrite>
             <CommentList></CommentList>

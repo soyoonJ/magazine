@@ -8,12 +8,14 @@ import moment from "moment";
 import { actionCreators as imageActions } from "./image";
 
 // 액션타입 만들어줌
+const LIKE_POST = "LIKE_POST";
 const SET_POST = "SET_POST";
 const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
 const DELETE_POST = "DELETE_POST";
 
 // 액션 만들어줌
+const likePost = createAction(LIKE_POST,(post_id) => ({post_id}))
 const setPost = createAction(SET_POST, (post_list) => ({post_list}))
 const addPost = createAction(ADD_POST, (post) => ({post}));
 const editPost = createAction(EDIT_POST, (post_id, post) => ({post_id,post}));
@@ -38,7 +40,35 @@ const initialPost = {
   comment_cnt: 0,
   insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
 
+  user_like: [],
+  
 };
+
+const likePostFB = (post_id = null) => {
+  return function (dispatch, getState, {history}) {
+    const postDB = firestore.collection('post');
+    const user_id = getState().user.user.uid;
+    const _post_idx = getState().post.list.findIndex(p => p.id === post_id);
+    console.log(getState().post.list[0].user_info.user_like)
+
+    postDB.get().then((docs) => {
+      let post_list = [];
+      docs.forEach((doc) => {
+        // doc.data() -> 파이어스토어에서 가져온 데이터
+        let _post = doc.data();
+        // console.log(..._post[_post_idx]);
+
+
+
+
+      });
+    });
+
+    
+
+  }
+}
+
 
 // 값이 안 들어왔을 때 튕겨내기 위해 null 값과 {} 값 주는거!
 const editPostFB = (post_id = null, post = {}) => {
@@ -121,8 +151,9 @@ const addPostFB = (contents = "", value = "") => {
       value: value,
       // 작업이 이뤄지는 시간
       insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
+      user_like : [{[_user.uid]: false}],
     };
-    // console.log(_post);
+    console.log(_post);
 
     const _image = getState().image.preview;
     // console.log(_image);
@@ -279,6 +310,7 @@ const actionCreators = {
     addPostFB,
     editPostFB,
     deletePostFB,
+    likePostFB,
 }
 
 // export

@@ -23,10 +23,12 @@ const Upload = (props) => {
         const reader = new FileReader();
         const file = fileInput.current.files[0];
 
+        // 파일 내용 읽어오기
         reader.readAsDataURL(file);
-
+        // 읽기가 끝나면 발생하는 이벤트 핸들러
         reader.onloadend = () => {
             console.log(reader.result);
+            // 프리뷰에 보내주기
             dispatch(imageActions.setPreview(reader.result));
         }
     }
@@ -53,7 +55,7 @@ const Upload = (props) => {
     return (
     <React.Fragment>
       {/* 변화가 있을 때 selectFile 함수로 넘어가기 */}
-      <input type="file" ref={fileInput} onChange={selectFile} ref={fileInput} disabled={is_uploading}/>
+      <input type="file" ref={fileInput} onChange={selectFile} disabled={is_uploading}/>
       <Button _onClick={uploadFB}>업로드하기</Button>
     </React.Fragment>
   );
