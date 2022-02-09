@@ -1,6 +1,7 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
+// 이미지 저장해놓은 storage 서비스 사용하기 위해 import 해줌
 import "firebase/compat/storage";
 
 // firebase에서 프로젝트 생성 시 생기는 firebaseConfig 그대로 복사하기

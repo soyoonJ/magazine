@@ -29,17 +29,18 @@ const Header = (props) => {
             <Grid is_flex padding="4px 16px">
               <Grid>
                 <Text margin="0px" size="24px" bold>
-                  헬로
+                  🌏
                 </Text>
               </Grid>
 
               <Grid is_flex>
-                <Button text="내정보"></Button>
+                <Button margin="3px" text="내정보"></Button>
                 <Button _onClick={() => {
                   history.push("/noti");
-                }} text="알림"></Button>
+                }} margin="3px" text="알림"></Button>
                 {/* 쿠키는 삭제 됐지만 부모/자식이 변한게 아니기 때문에 리렌더링 되지 않음 */}
                 <Button
+                  margin="3px"
                   text="로그아웃"
                   _onClick={() => {
                     dispatch(userActions.logoutFB());
@@ -57,18 +58,20 @@ const Header = (props) => {
       <Grid is_flex padding="4px 16px">
         <Grid>
           <Text margin="0px" size="24px" bold>
-            헬로
+            🌏
           </Text>
         </Grid>
 
         <Grid is_flex>
           <Button
+            margin="3px"
             text="로그인"
             _onClick={() => {
               history.push("/login");
             }}
           ></Button>
           <Button
+            margin="3px"
             text="회원가입"
             _onClick={() => {
               history.push("/signup");

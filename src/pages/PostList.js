@@ -21,20 +21,25 @@ const PostList = (props) => {
     // console.log(post_list);
 
     React.useEffect(() => {
-
+        // getPostFB 불러오기
+        // post_list가 0일 때만 getPostFB 하는거!
+        // 그럼 이미 리스트 있을 때는 getPostFB 따로 안하고 기존에 있던 리덕스에서 불러옴
         if(post_list.length === 0) {
             dispatch(postActions.getPostFB());
         }
-        
+    // 처음 페이지 켰을 때 한번만 불러오기 때문에 빈 배열
     }, []);
 
     return (
         <React.Fragment>
-            <Grid bg={"EFF6FF"} padding="20px 0px">
+            <Grid bg={"#F0F1F2"} padding="20px 0px">
             {/* <Post/> */}
+            {/* 게시물 개수만큼 map 돌려서 불러오기 */}
             {post_list.map((p,idx) => {
+                // 옵셔널 체이닝
                 if(p.user_info.user_id === user_info?.uid){
                     return (
+                        // 클릭했을 때 id값 주소로 이동
                         <Grid
                             bg="#ffffff"
                             margin= "8px 0px"
@@ -42,7 +47,7 @@ const PostList = (props) => {
                             _onClick={() => {
                                 history.push(`/post/${p.id}`);
                             }}>
-                            <Post key={p.id} {...p} is_me/>;
+                            <Post key={p.id} {...p} is_me/>
                         </Grid>
                     )
                 } else {
@@ -52,7 +57,7 @@ const PostList = (props) => {
                             _onClick={() => {
                                 history.push(`/post/${p.id}`);
                             }}>
-                            <Post {...p} />;
+                            <Post key={p.id} {...p} />
                         </Grid>
                     )
                 }

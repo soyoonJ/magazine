@@ -44,6 +44,7 @@ const GridBox = styled.div`
     props.is_flex
       ? `display: flex; align-items: center; justify-content: space-between; `
       : ""}
+  // props가 center면 text-align을 center로 줌!
   ${(props) => props.center? `text-align: center`:''}
 `;
 

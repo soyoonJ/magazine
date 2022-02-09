@@ -2,7 +2,7 @@ import React from "react";
 import {Grid, Text, Button, Image, Input} from "../elements"
 import Upload from "../shared/Upload";
 
-import {useSelector, useDispatch} from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { actionCreators as postActions } from "../redux/modules/post";
 import { actionCreators as imageActions } from "../redux/modules/image";
 
@@ -12,22 +12,24 @@ const PostWrite = (props) => {
     const preview = useSelector((state) => state.image.preview);
     const post_list = useSelector((state)=>state.post.list);
 
-    // console.log(props.match.params.id);
-
+    // match.params로 path에 설정한 파라미터값을 가져올 수 있음
     const post_id = props.match.params.id;
     const is_edit = post_id? true : false;
 
     const {history} = props;
 
+    // post_list 전체에서 params로 가져온 post_id와 같은 id를 가진 값을 추출
     let _post = is_edit? post_list.find((p)=> p.id === post_id) : null;
 
-
+    // _post가 있으면 contents를 넣어주고, 아니면 빈값
     const [contents, setContents] = React.useState(_post? _post.contents : '');
     const [value, setValue] = React.useState('');
 
     // 리덕스에서 처리하도록 짰기 때문에 새로고침 하면 데이터 날라감.
     // 때문에 새로고침하면 원래 페이지로 돌아가게 추가
     React.useEffect(()=> {
+      // post_id가 있고, useSelector에서 가져온 id와 일치하는 값이 없을 때
+      // 즉, 새로고침으로 state에서 받아온 정보가 날라갔을 때
       if(is_edit && !_post) {
         console.log('포스트 정보가 없어요!')
         history.goBack();
@@ -35,12 +37,15 @@ const PostWrite = (props) => {
         return;
       }
 
+      // 위에서 포스트 정보 여부 확인했기 때문에 따로 확인할 필요 없음
       if(is_edit) {
         dispatch(imageActions.setPreview(_post.image_url))
       }
     }, []);
 
+    // input 값 바뀔 때 event의 value 가져오기
     const changeContents = (e) => {
+        // contents 값 e.target.value로 업데이트
         setContents(e.target.value);
     }
     
@@ -54,7 +59,7 @@ const PostWrite = (props) => {
       };
 
     const editPost = () => {
-      dispatch(postActions.editPostFB(post_id, {contents: contents}))
+      dispatch(postActions.editPostFB(post_id, {contents: contents}));
     }
     
 
@@ -67,6 +72,7 @@ const PostWrite = (props) => {
             <Text size="16px">로그인 후에만 글을 쓸 수 있어요!</Text>
             <Button
               _onClick={() => {
+                // history.push 하면 다시 이 페이지로 들어오게 된다고 함
                 history.replace("/");
               }}
             >
@@ -80,6 +86,7 @@ const PostWrite = (props) => {
       <React.Fragment>
         <Grid padding="16px">
           <Text margin="0px" size="36px" bold>
+            {/* 편집상태인지 여부에 따라서 수정/작성으로 나눔 */}
             {is_edit ? "게시글 수정" : "게시글 작성"}
           </Text>
           <Upload />
@@ -172,9 +179,11 @@ const PostWrite = (props) => {
 
         {/*게시글 작성 마친 후 submit 위해 클릭하는 버튼 */}
         <Grid padding="16px">
+          {/* 편집상태에 따라서 수정 or 작성으로 조건 나눔 */}
           {is_edit ? (
             <Button text="게시글 수정" _onClick={editPost}></Button>
           ) : (
+            // 상단에서 addPost 함수 만들고 거기에서 FB로 보내주는 작업 만들기
             <Button text="게시글 작성" _onClick={addPost}></Button>
           )}
         </Grid>

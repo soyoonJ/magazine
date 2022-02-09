@@ -17,8 +17,9 @@ const Post = (props) => {
 
     switch(props.value) {
       case 'right-image' :
+        // e.stopPropagation() : 부모요소 삭제 안되도록 함
         return (
-          <React.Fragment>
+        <React.Fragment>
           <Grid>
             <Grid is_flex padding="16px">
               <Grid is_flex width="auto">
@@ -32,9 +33,11 @@ const Post = (props) => {
                 {props.is_me && (
                   <Button
                     width="auto"
+                    // 작성시간이랑 버튼 사이 간격
                     margin="4px"
                     padding="4px"
-                    _onClick={() => {
+                    _onClick={(e) => {
+                      e.stopPropagation()
                       history.push(`/write/${props.id}`);
                     }}
                   >
@@ -47,7 +50,8 @@ const Post = (props) => {
                     width="auto"
                     margin="4px"
                     padding="4px"
-                    _onClick={() => {
+                    _onClick={(e) => {
+                      e.stopPropagation()
                       dispatch(postActions.deletePostFB(props.id));
                     }}
                   >
@@ -76,8 +80,7 @@ const Post = (props) => {
           </Grid>
         </React.Fragment>
         )
-
-        
+     
         case 'left-image' :
           return (
         <React.Fragment>
@@ -96,7 +99,8 @@ const Post = (props) => {
                     width="auto"
                     margin="4px"
                     padding="4px"
-                    _onClick={() => {
+                    _onClick={(e) => {
+                      e.stopPropagation()
                       history.push(`/write/${props.id}`);
                     }}
                   >
@@ -109,7 +113,8 @@ const Post = (props) => {
                     width="auto"
                     margin="4px"
                     padding="4px"
-                    _onClick={() => {
+                    _onClick={(e) => {
+                      e.stopPropagation()
                       dispatch(postActions.deletePostFB(props.id));
                     }}
                   >
@@ -155,7 +160,8 @@ const Post = (props) => {
                     width="auto"
                     margin="4px"
                     padding="4px"
-                    _onClick={() => {
+                    _onClick={(e) => {
+                      e.stopPropagation()
                       history.push(`/write/${props.id}`);
                     }}
                   >
@@ -168,7 +174,8 @@ const Post = (props) => {
                     width="auto"
                     margin="4px"
                     padding="4px"
-                    _onClick={() => {
+                    _onClick={(e) => {
+                      e.stopPropagation()
                       dispatch(postActions.deletePostFB(props.id));
                     }}
                   >

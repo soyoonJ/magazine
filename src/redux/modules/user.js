@@ -5,7 +5,7 @@ import {produce} from "immer";
 import {setCookie, getCookie, deleteCookie} from "../../shared/Cookie"
 
 import {auth} from "../../shared/firebase"
-import firebase from "firebase/app"
+// import firebase from "firebase/app"
 
 import { setPersistence, browserSessionPersistence, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from "firebase/auth";
 
@@ -144,6 +144,7 @@ export default handleActions({
     // immer 가져오기 (produce)
     // 원본값 제공, 원본값 복사한거 draft
     [SET_USER]: (state, action) => produce(state, (draft)=>{
+        // "is_login" : 함수이름, "success" : 저장할 값 
         setCookie("is_login", "success")
         // action creators에서 받아온 값
         draft.user = action.payload.user;
@@ -151,6 +152,7 @@ export default handleActions({
     }),
 
     [LOG_OUT]: (state, action) => produce(state, (draft)=>{
+        // "is_login" : 함수이름
         deleteCookie("is_login");
         draft.user = null;
         draft.is_login = false;
