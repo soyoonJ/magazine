@@ -39,8 +39,8 @@ Button.defaultProps = {
 
 const ElButton = styled.button`
     width: ${(props) => props.width};
-    background-color: #F2DFEA;
-    color: #025949;
+    background-color: #D94E73;
+    color: #ffffff;
     padding: ${(props) => props.padding};
     box-sizing: border-box;
     border-radius: 2px;

@@ -7,6 +7,7 @@ import { actionCreators as userActions } from "../redux/modules/user";
 
 import { history } from "../redux/configureStore";
 import { apiKey } from "../shared/firebase";
+// import { FaGuitar } from 'react-icons/fa';
 // import Permit from "../shared/Permit";
 
 const Header = (props) => {
@@ -26,10 +27,10 @@ const Header = (props) => {
   if (is_login && is_session) {
     return (
       <React.Fragment>
-            <Grid is_flex padding="4px 16px">
+            <Grid is_flex padding="4px 16px" bg="#FFFFFF">
               <Grid>
                 <Text margin="0px" size="24px" bold>
-                  🌏
+                  🎉
                 </Text>
               </Grid>
 
@@ -55,10 +56,10 @@ const Header = (props) => {
   
   return (
     <React.Fragment>
-      <Grid is_flex padding="4px 16px">
+      <Grid is_flex padding="4px 16px" bg="#F2EBD5">
         <Grid>
           <Text margin="0px" size="24px" bold>
-            🌏
+            🎉
           </Text>
         </Grid>
 

@@ -65,14 +65,14 @@ const Post = (props) => {
               </Grid>
             </Grid>
   
-            <Grid is_flex>
-              <Text margin="0px" size="24px" bold>
+            <Grid is_flex width="50vw">
+              <Text margin="0px" size="18px" bold>
                 {props.contents}
               </Text>
-            <Grid width="30vw">
-              {/* 게시물 목록에서 노출되는 사진 부분 */}
-              <Image shape="rectangle" src={props.image_url} />
-            </Grid>
+              <Grid width="30vw">
+                {/* 게시물 목록에서 노출되는 사진 부분 */}
+                <Image size="" shape="rectangle" src={props.image_url} />
+              </Grid>
             </Grid>
   
 
@@ -136,7 +136,7 @@ const Post = (props) => {
               <Grid width="30vw">
                 <Image size="" shape="rectangle" src={props.image_url} />
               </Grid>
-              <Text margin="0px" size="24px" bold>
+              <Text margin="0px" size="18px" bold>
                 {props.contents}
               </Text>
             </Grid>
@@ -197,9 +197,9 @@ const Post = (props) => {
               </Grid>
             </Grid>
             <Grid padding="16px">
-              <Text>{props.contents}</Text>
+              <Text margin="0px" size="18px" bold>{props.contents}</Text>
             </Grid>
-            <Grid>
+            <Grid width="40vw" margin="auto">
               {/* 게시물 목록에서 노출되는 사진 부분 */}
               <Image shape="rectangle" src={props.image_url} />
             </Grid>
